@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acknowledgement of Receipt — ADV Teammate Handbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --navy-950: #060e1a;
+      --navy-900: #0d1b2a;
+      --navy-800: #1b2d4a;
+      --navy-700: #243b5e;
+      --navy-600: #2e4a72;
+      --blue-500: #4a90c4;
+      --blue-400: #6aaddb;
+      --blue-300: #7cb9d8;
+      --blue-200: #a3d5e8;
+      --blue-100: #d4ecf5;
+      --blue-50: #eef7fb;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --white: #ffffff;
+      --red-500: #ef4444;
+      --green-500: #22c55e;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--navy-950);
+      color: var(--slate-800);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--navy-950) 0%, var(--navy-900) 50%, var(--navy-800) 100%);
+      padding: 2rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(74,144,196,0.15);
+    }
+    .header::before {
+      content: '';
+      position: absolute; top: -60%; right: -10%;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(74,144,196,0.08) 0%, transparent 70%);
+      border-radius: 50%; pointer-events: none;
+    }
+    .header-inner {
+      max-width: 720px; margin: 0 auto;
+      position: relative; z-index: 1;
+    }
+    .header-nav {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.75rem; margin-bottom: 1.5rem;
+    }
+    .header-nav a {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.82rem; font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .header-nav a.back-link {
+      background: rgba(74,144,196,0.1);
+      color: var(--blue-300);
+      border: 1px solid rgba(74,144,196,0.2);
+    }
+    .header-nav a.back-link:hover { background: rgba(74,144,196,0.18); }
+    .header-nav a svg { width: 14px; height: 14px; }
+    .header-logo { max-height: 56px; width: auto; margin-bottom: 1rem; }
+    .header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.3rem, 3.5vw, 1.75rem);
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 0.35rem;
+    }
+    .header p { color: var(--slate-400); font-size: 0.85rem; }
+
+    .container { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+    .download-card {
+      background: var(--navy-900);
+      border: 1px solid rgba(74,144,196,0.15);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: border-color 0.2s ease;
+    }
+    .download-card:hover { border-color: rgba(74,144,196,0.3); }
+    .download-icon {
+      flex-shrink: 0;
+      width: 48px; height: 48px;
+      background: rgba(74,144,196,0.1);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .download-icon svg { width: 24px; height: 24px; color: var(--blue-400); }
+    .download-info { flex: 1; }
+    .download-info h3 { font-size: 0.9rem; font-weight: 600; color: var(--white); margin-bottom: 0.1rem; }
+    .download-info p { font-size: 0.78rem; color: var(--slate-500); }
+    .download-btn {
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--blue-500); color: var(--white);
+      text-decoration: none;
+      font-size: 0.82rem; font-weight: 600;
+      padding: 0.55rem 1.1rem; border-radius: 8px;
+      transition: background 0.2s ease;
+    }
+    .download-btn:hover { background: var(--blue-400); }
+    .download-btn svg { width: 14px; height: 14px; }
+
+    .card {
+      background: var(--navy-900);
+      border: 1px solid rgba(74,144,196,0.12);
+      border-radius: 12px;
+      padding: 1.75rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .card h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid rgba(74,144,196,0.15);
+    }
+    .ack-text { font-size: 0.88rem; line-height: 1.8; color: var(--slate-300); }
+    .ack-text p { margin-bottom: 0.85rem; }
+    .ack-text p:last-child { margin-bottom: 0; }
+
+    .form-row { margin-bottom: 1.25rem; }
+    .form-row label {
+      display: block;
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--slate-400);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+    }
+    .form-row input[type="text"],
+    .form-row input[type="date"] {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      font-family: inherit; font-size: 0.92rem;
+      color: var(--white);
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(74,144,196,0.2);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-row input::placeholder { color: var(--slate-600); }
+    .form-row input:focus {
+      border-color: var(--blue-500);
+      box-shadow: 0 0 0 3px rgba(74,144,196,0.15);
+    }
+    /* Fix date input color for dark theme */
+    .form-row input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.7);
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 540px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .sig-container { position: relative; }
+    .sig-canvas {
+      width: 100%; height: 160px;
+      background: rgba(255,255,255,0.03);
+      border: 1.5px solid rgba(74,144,196,0.2);
+      border-radius: 8px;
+      cursor: crosshair; touch-action: none;
+      transition: border-color 0.2s;
+    }
+    .sig-canvas.active { border-color: var(--blue-500); box-shadow: 0 0 0 3px rgba(74,144,196,0.15); }
+    .sig-canvas.has-signature { border-color: var(--blue-500); }
+    .sig-placeholder {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--slate-600); font-size: 0.82rem;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .sig-placeholder.hidden { opacity: 0; }
+    .sig-line {
+      position: absolute; bottom: 36px; left: 20px; right: 20px;
+      height: 1px; background: rgba(74,144,196,0.15);
+      pointer-events: none;
+    }
+    .sig-clear {
+      position: absolute; top: 8px; right: 8px;
+      background: var(--navy-800);
+      border: 1px solid rgba(74,144,196,0.2);
+      border-radius: 6px;
+      padding: 0.25rem 0.55rem;
+      font-size: 0.7rem; font-weight: 600;
+      color: var(--slate-500);
+      cursor: pointer;
+      opacity: 0; transition: opacity 0.2s, color 0.15s;
+    }
+    .sig-clear.visible { opacity: 1; }
+    .sig-clear:hover { color: var(--red-500); }
+
+    .consent-row {
+      margin: 1.5rem 0 1.25rem;
+      display: flex; align-items: flex-start; gap: 0.75rem;
+    }
+    .consent-row input[type="checkbox"] {
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      margin-top: 2px;
+      accent-color: var(--blue-500);
+      cursor: pointer;
+    }
+    .consent-row label {
+      font-size: 0.85rem; color: var(--slate-300);
+      line-height: 1.5; cursor: pointer;
+      text-transform: none; letter-spacing: normal; font-weight: 400;
+    }
+    .consent-row label strong { font-weight: 700; color: var(--blue-300); }
+
+    .submit-btn {
+      width: 100%;
+      padding: 0.85rem 1.5rem;
+      font-family: inherit; font-size: 1rem; font-weight: 700;
+      color: var(--white);
+      background: var(--blue-500);
+      border: none; border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, opacity 0.2s;
+    }
+    .submit-btn:hover:not(:disabled) { background: var(--blue-400); }
+    .submit-btn:active:not(:disabled) { transform: scale(0.99); }
+    .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .error-msg { font-size: 0.75rem; color: var(--red-500); margin-top: 0.3rem; display: none; }
+    .form-row.error input, .form-row.error .sig-canvas { border-color: var(--red-500) !important; }
+    .form-row.error .error-msg { display: block; }
+
+    /* Save Overlay */
+    .save-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(6,14,26,0.75);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      align-items: center; justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+    .save-overlay.show { display: flex; }
+    .save-card {
+      background: var(--navy-900);
+      border: 1px solid rgba(74,144,196,0.2);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      max-width: 480px; width: 90%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideUp 0.4s ease;
+    }
+    .save-icon {
+      width: 64px; height: 64px;
+      background: rgba(34,197,94,0.12);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+    .save-icon svg { width: 32px; height: 32px; color: var(--green-500); }
+    .save-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem; font-weight: 400;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .save-card > p { font-size: 0.88rem; color: var(--slate-400); margin-bottom: 1.5rem; line-height: 1.6; }
+    .signer-detail {
+      font-size: 0.8rem; color: var(--slate-400);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(74,144,196,0.1);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    .signer-detail span { display: block; margin-bottom: 0.2rem; }
+    .signer-detail strong { color: var(--slate-300); }
+
+    .save-buttons { display: flex; flex-direction: column; gap: 0.75rem; }
+    .save-btn {
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+      padding: 0.8rem 1.5rem;
+      border-radius: 10px;
+      font-family: inherit; font-size: 0.92rem; font-weight: 600;
+      cursor: pointer; border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .save-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .save-btn.onedrive { background: #0078d4; color: var(--white); }
+    .save-btn.onedrive:hover { background: #106ebe; }
+    .save-btn.download {
+      background: rgba(255,255,255,0.06);
+      color: var(--slate-300);
+      border: 1px solid rgba(74,144,196,0.2);
+    }
+    .save-btn.download:hover { background: rgba(255,255,255,0.1); }
+    .save-btn.done {
+      background: transparent;
+      color: var(--slate-500);
+      font-size: 0.82rem; font-weight: 500;
+      padding: 0.5rem;
+    }
+    .save-btn.done:hover { color: var(--slate-300); }
+    .onedrive-status { font-size: 0.75rem; color: var(--slate-500); margin-top: 0.2rem; font-style: italic; }
+
+    #hiddenFileInput { display: none; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.75rem;
+      color: var(--slate-600);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(74,144,196,0.2); border-radius: 3px; }
+
+    @media print {
+      body { background: white; color: #1e293b; }
+      .download-card, .submit-btn, .sig-clear, .consent-row, .header-nav { display: none !important; }
+      .card { box-shadow: none; border: 1px solid #ccc; background: white; }
+      .card h2 { color: #0d1b2a; border-color: #ddd; }
+      .ack-text { color: #334155; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <nav class="header-nav">
+        <a href="index.html" class="back-link">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
+          Back to Handbook
+        </a>
+      </nav>
+      <img src="assets/ro_logo.png" alt="The Retail Odyssey Company" class="header-logo">
+      <h1>Teammate Handbook Acknowledgement</h1>
+      <p>Revised February 2025 &nbsp;·&nbsp; Please review, sign, and submit</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="download-card">
+      <div class="download-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+      </div>
+      <div class="download-info">
+        <h3>ADV Teammate Handbook</h3>
+        <p>PDF &nbsp;·&nbsp; 56 pages &nbsp;·&nbsp; Revised Feb 2025</p>
+      </div>
+      <a href="assets/2025_Teammate_Handbook.pdf" target="_blank" class="download-btn" download>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+        Download
+      </a>
+    </div>
+
+    <section class="card">
+      <h2>Acknowledgement of Receipt</h2>
+      <div class="ack-text">
+        <p>I have received a copy of the Company's Handbook and the applicable Supplement(s) for the locations in which I work. I agree to read it and to comply with the policies and procedures described in the Handbook and Supplement(s). If I have any questions regarding any of the Handbook's provisions, I will consult with my supervisor, manager or Human Resources. I understand that if I do not follow the policies and procedures contained herein that I may be subject to disciplinary action, up to and including termination of employment.</p>
+        <p>I also understand that this Handbook is the most up-to-date version of the Company's policies and procedures and replaces any prior written and oral communications about the subjects contained in it.</p>
+        <p>I acknowledge that my employment relationship with the Company is "at-will", meaning that, regardless of anything contained in this Handbook and regardless of any custom or practice, either I or the Company may terminate my employment at any time, for any reason or no reason, with or without cause, and with or without procedural requirements. I understand that no representatives of the Company, other than the CEO in a writing signed by him/her/them, may enter into any agreements, or make any representations, written or oral, to alter my at-will status or otherwise create any contractual obligation between me and the Company.</p>
+        <p>I further acknowledge that this handbook and the policies contained herein are not intended to create (and shall not be construed as creating) a contract (express or implied) for employment between the Company and any Teammate and that said policies can be modified by the Company at any time, with or without notice to me, in its sole and absolute discretion.</p>
+        <p>By signing below, I acknowledge that I have received and will abide by the Company's Handbook and all the policies within it, including those on harassment, discrimination, retaliation, and bringing complaints regarding the same.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Sign Below</h2>
+      <div class="form-row" id="nameRow">
+        <label for="printedName">Printed Teammate Name</label>
+        <input type="text" id="printedName" placeholder="Enter your full legal name" autocomplete="name">
+        <div class="error-msg">Please enter your full name.</div>
+      </div>
+      <div class="form-row" id="sigRow">
+        <label>Teammate Signature</label>
+        <div class="sig-container">
+          <canvas id="sigCanvas" class="sig-canvas"></canvas>
+          <div class="sig-line"></div>
+          <span id="sigPlaceholder" class="sig-placeholder">Sign here using your mouse or finger</span>
+          <button type="button" id="sigClear" class="sig-clear" onclick="clearSignature()">Clear</button>
+        </div>
+        <div class="error-msg">Please provide your signature above.</div>
+      </div>
+      <div class="form-grid">
+        <div class="form-row" id="dateRow">
+          <label for="signDate">Date</label>
+          <input type="date" id="signDate">
+          <div class="error-msg">Please select today's date.</div>
+        </div>
+      </div>
+      <div class="consent-row">
+        <input type="checkbox" id="digiConsent">
+        <label for="digiConsent">By checking this box, I agree that my digital signature above is the legal equivalent of my handwritten signature and that I intend to be bound by this acknowledgement. I confirm I have <strong>reviewed the ADV Teammate Handbook</strong> and understand the policies and procedures described within it.</label>
+      </div>
+      <button type="button" class="submit-btn" id="submitBtn" disabled onclick="handleSubmit()">Submit Acknowledgement</button>
+    </section>
+  </main>
+
+  <footer class="footer">&copy; 2025 Advantage Solutions Inc. &nbsp;·&nbsp; All rights reserved.</footer>
+
+  <input type="file" id="hiddenFileInput" accept=".pdf">
+
+  <div class="save-overlay" id="saveOverlay">
+    <div class="save-card">
+      <div class="save-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+      </div>
+      <h3>Acknowledgement Signed</h3>
+      <p>Your signed acknowledgement PDF is ready. Choose how to save it.</p>
+      <div class="signer-detail" id="signerDetail"></div>
+      <div class="save-buttons">
+        <button class="save-btn onedrive" id="onedriveSaveBtn" onclick="saveToOneDrive()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.39 4.19c1.66-.89 3.73-.78 5.28.32a5.17 5.17 0 0 1 2.2 3.54 4.38 4.38 0 0 1 2.67 1.81 4.34 4.34 0 0 1 .72 3.1 4.36 4.36 0 0 1-1.67 2.85 4.4 4.4 0 0 1-3.14.94H6.13a5.07 5.07 0 0 1-3.55-1.38A4.91 4.91 0 0 1 1.1 12a4.94 4.94 0 0 1 2.1-3.07 5.03 5.03 0 0 1 3.56-.85c.54-1.71 1.78-3.07 3.43-3.59a5.89 5.89 0 0 1 2.2-.3Z"/></svg>
+          Save to OneDrive
+        </button>
+        <div class="onedrive-status" id="onedriveStatus"></div>
+        <button class="save-btn download" id="downloadBtn" onclick="downloadPDF()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.
